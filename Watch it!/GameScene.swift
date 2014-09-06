@@ -9,14 +9,16 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    
+    var spaceColor = SKColor()
+    var spaceShip1 = SKSpriteNode()
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
-        myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
         
-        self.addChild(myLabel)
+        // setup background color
+        spaceColor = SKColor(red: 81.0/255.0, green: 192.0/255.0, blue: 201.0/255.0, alpha: 1.0)
+        self.backgroundColor = spaceColor
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -26,15 +28,14 @@ class GameScene: SKScene {
             let location = touch.locationInNode(self)
             
             let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
+            sprite.setScale(0.2)
             sprite.position = location
             
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
+            let moveAction = SKAction.moveByX(50, y: 40, duration: 1)
+            let rotateAction = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
             
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
+            sprite.runAction(SKAction.repeatActionForever(moveAction))
+            sprite.runAction(SKAction.repeatActionForever(rotateAction))
             self.addChild(sprite)
         }
     }
